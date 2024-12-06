@@ -1,11 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
+<form method="get">
+    <label for="category">Фильтр по категории:</label>
+    <select name="category" id="category">
+        <option value="">Все категории</option>
+        {% for category in categories %}
+            <option value="{{ category.id }}" {% if category.id|stringformat:"s" == request.GET.category %}selected{% endif %}>{{ category.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Фильтровать</button>
+</form>
+
 <div>
-    <a href="?sort=title">Сортировка по наименованию</a> |
-    <a href="?sort=-created_at">Сортировка по дате (от новых к старым)</a> |
-    <a href="?sort=created_at">Сортировка по дате (от старых к новым)</a>
+    <a href="?sort=title{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">Сортировка по наименованию</a> |
+    <a href="?sort=-created_at{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">Сортировка по дате (от новых к старым)</a> |
+    <a href="?sort=created_at{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">Сортировка по дате (от старых к новым)</a>
 </div>
+
 <ul>
     {% for publication in publications %}
         <li>
@@ -17,8 +29,8 @@
 <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
-            <a href="?page=1&sort={{ request.GET.sort }}">« Начало</a>
-            <a href="?page={{ page_obj.previous_page_number }}&sort={{ request.GET.sort }}"><<</a>
+            <a href="?page=1&sort={{ request.GET.sort }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">« Начало</a>
+            <a href="?page={{ page_obj.previous_page_number }}&sort={{ request.GET.sort }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}"><<</a>
         {% endif %}
 
         <span class="current">
@@ -26,8 +38,8 @@
         </span>
 
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}&sort={{ request.GET.sort }}">>></a>
-            <a href="?page={{ page_obj.paginator.num_pages }}&sort={{ request.GET.sort }}">Последняя</a>
+            <a href="?page={{ page_obj.next_page_number }}&sort={{ request.GET.sort }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">>></a>
+            <a href="?page={{ page_obj.paginator.num_pages }}&sort={{ request.GET.sort }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">Последняя</a>
         {% endif %}
     </span>
 </div>
