@@ -3,7 +3,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelatio
 from django.contrib.contenttypes.models import ContentType
 from category.models import Category
 from tag.models import Tag
-# Create your models here.
+
 
 class TimeStappedModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -14,10 +14,19 @@ class TimeStappedModel(models.Model):
 
 
 class Publication(TimeStappedModel):
-    title = models.CharField(max_length=255, null=False)
+    title = models.CharField(max_length=255, blank=True)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
+
+    def save(self, *args, **kwargs):
+        # Устанавливаем title на основе связанного объекта
+        if self.content_object:
+            self.title = self.content_object.title
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.title}"
 
 
 class Article(models.Model):
@@ -27,6 +36,9 @@ class Article(models.Model):
     publications = GenericRelation(Publication, related_query_name='article')
     tags = models.ManyToManyField(Tag, related_name='articles')
 
+    def __str__(self):
+        return f"{self.title}"
+
 
 class Video(models.Model):
     title = models.CharField(max_length=255, null=False)
@@ -34,3 +46,6 @@ class Video(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='videos')
     publications = GenericRelation(Publication, related_query_name='video')
     tags = models.ManyToManyField(Tag, related_name='videos')
+
+    def __str__(self):
+        return f"{self.title}"

@@ -1,3 +1,15 @@
 from django.shortcuts import render
+from django.views.generic import ListView, DetailView
+from .models import Publication, Article
 
-# Create your views here.
+
+class PublicationListView(ListView):
+    model = Publication
+    template_name = 'publication/index.html'
+    context_object_name = 'publications'
+
+
+class PublicationDetailView(DetailView):
+    model = Publication
+    template_name = 'publication/publication_detail.html'
+    context_object_name = 'publication'

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load filters %}
+{% block title %}{{ publication.title }}{% endblock %}
+
+{% block content %}
+<h2>{{ publication.title }}</h2>
+<h3>Дата публикации: {{publication.created_at|date:"d.m.Y"}}</h3>
+
+{% if publication.content_type.model == 'article' %}
+<p>{{ publication.content_object.content }}</p>
+{% elif publication.content_type.model == 'video' %}
+    {% with youtube_url=publication.content_object.youtube_url %}
+        {% with video_id=youtube_url|get_youtube_video_id %}
+            {% if video_id %}
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ video_id }}" frameborder="0" allowfullscreen></iframe>
+            {% else %}
+                <p>Invalid YouTube URL</p>
+            {% endif %}
+        {% endwith %}
+    {% endwith %}
+{% endif %}
+
+{% endblock %}
