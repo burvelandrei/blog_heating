@@ -1,5 +1,8 @@
 from django.db import models
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.models import ContentType
 from category.models import Category
+from tag.models import Tag
 # Create your models here.
 
 class TimeStappedModel(models.Model):
@@ -12,15 +15,22 @@ class TimeStappedModel(models.Model):
 
 class Publication(TimeStappedModel):
     title = models.CharField(max_length=255, null=False)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='publications')
-
-    class Meta:
-        abstract = True
-
-
-class Article(Publication):
-    article = models.TextField()
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
 
 
-class Video(Publication):
-    video = models.URLField()
+class Article(models.Model):
+    title = models.CharField(max_length=255, null=False)
+    content = models.TextField()
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='articles')
+    publications = GenericRelation(Publication, related_query_name='article')
+    tags = models.ManyToManyField(Tag, related_name='articles')
+
+
+class Video(models.Model):
+    title = models.CharField(max_length=255, null=False)
+    youtube_url = models.URLField()
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='videos')
+    publications = GenericRelation(Publication, related_query_name='video')
+    tags = models.ManyToManyField(Tag, related_name='videos')
