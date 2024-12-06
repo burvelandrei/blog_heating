@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div>
+    <a href="?sort=title">Сортировка по наименованию</a> |
+    <a href="?sort=-created_at">Сортировка по дате (от новых к старым)</a> |
+    <a href="?sort=created_at">Сортировка по дате (от старых к новым)</a>
+</div>
 <ul>
     {% for publication in publications %}
         <li>
@@ -8,4 +13,23 @@
         </li>
     {% endfor %}
 </ul>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1&sort={{ request.GET.sort }}">« Начало</a>
+            <a href="?page={{ page_obj.previous_page_number }}&sort={{ request.GET.sort }}"><<</a>
+        {% endif %}
+
+        <span class="current">
+            Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}&sort={{ request.GET.sort }}">>></a>
+            <a href="?page={{ page_obj.paginator.num_pages }}&sort={{ request.GET.sort }}">Последняя</a>
+        {% endif %}
+    </span>
+</div>
+
 {% endblock %}

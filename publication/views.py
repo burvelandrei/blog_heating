@@ -7,6 +7,11 @@ class PublicationListView(ListView):
     model = Publication
     template_name = 'publication/index.html'
     context_object_name = 'publications'
+    paginate_by = 10
+
+    def get_ordering(self):
+        ordering = self.request.GET.get('sort', 'title')
+        return ordering
 
 
 class PublicationDetailView(DetailView):
