@@ -12,7 +12,9 @@
     {% with youtube_url=publication.content_object.youtube_url %}
         {% with video_id=youtube_url|get_youtube_video_id %}
             {% if video_id %}
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ video_id }}" frameborder="0" allowfullscreen></iframe>
+                <iframe width="1000" height="600"
+                src="https://www.youtube.com/embed/{{ video_id }}"
+                frameborder="0" allowfullscreen></iframe>
             {% else %}
                 <p>Invalid YouTube URL</p>
             {% endif %}
