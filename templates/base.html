@@ -12,6 +12,27 @@
 <body>
     <header class="header-nav-container">
         <h1><a href="{% url 'index' %}">Блог про отопительные приборы</a></h1>
+        <nav class="nav">
+            {% if user.is_authenticated %}
+                <form action="{% url 'profile' user.id %}" method="GET">
+                    <button type="submit">Профиль</button>
+                </form>
+                <form action="{% url 'logout' %}" method="GET">
+                    <button type="submit">Выйти</button>
+                </form>
+                {% if user.is_staff %}
+                <form action="{% url 'admin:index' %}" method="GET">
+                    <button type="submit">Админка</button>
+                {% endif %}
+            {% else %}
+                <form action="{% url 'login' %}" method="GET">
+                    <button type="submit">Войти</button>
+                </form>
+                <form action="{% url 'register' %}" method="GET">
+                    <button type="submit">Зарегистрироваться</button>
+                </form>
+            {% endif %}
+        </nav>
     </header>
     <main>
         {% block content %}{% endblock %}

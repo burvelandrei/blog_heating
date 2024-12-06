@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %} Профиль {% endblock %}
+
+{% block content %}
+<h2>Профиль</h2>
+<h5>Username: {{user.username}}</h5>
+<h5>Имя: {{user.first_name}}</h5>
+<h5>Фамилия: {{user.last_name}}</h5>
+<h5>Дата рождения: {{user.birth_date}}</h5>
+<h5>Email: {{user.email}}</h5>
+
+
+{% endblock %}
