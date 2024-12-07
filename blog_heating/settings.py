@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'category',
     'tag',
     'user',
+    'comment',
 ]
 
 MIDDLEWARE = [

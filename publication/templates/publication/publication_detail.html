@@ -25,4 +25,19 @@
     {% endwith %}
 {% endif %}
 
+<h4>Комментарии</h4>
+<ul>
+    {% for comment in comments %}
+    <li>{{ comment.content }} - {{ comment.created_at|date:"d.m.Y" }} - {{comment.author.username}}</li>
+    {% endfor %}
+</ul>
+
+{% if user.is_authenticated%}
+    <form method="post" action="{% url 'add_comment' id=publication.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Отправить</button>
+    </form>
+{% endif %}
+
 {% endblock %}
