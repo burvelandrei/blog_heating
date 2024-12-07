@@ -23,6 +23,7 @@
                 {% if user.is_staff %}
                 <form action="{% url 'admin:index' %}" method="GET">
                     <button type="submit">Админка</button>
+                </form>
                 {% endif %}
             {% else %}
                 <form action="{% url 'login' %}" method="GET">

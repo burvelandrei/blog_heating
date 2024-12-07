@@ -14,8 +14,8 @@
 
 <div>
     <a href="?sort=title{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">Сортировка по наименованию</a> |
-    <a href="?sort=-created_at{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">Сортировка по дате (от новых к старым)</a> |
-    <a href="?sort=created_at{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">Сортировка по дате (от старых к новым)</a>
+    <a href="?sort=-publisched_at{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">Сортировка по дате (от новых к старым)</a> |
+    <a href="?sort=publisched_at{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">Сортировка по дате (от старых к новым)</a>
 </div>
 
 <ul>
