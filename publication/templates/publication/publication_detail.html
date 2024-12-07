@@ -4,7 +4,10 @@
 
 {% block content %}
 <h2>{{ publication.title }}</h2>
-<h3>Дата публикации: {{publication.created_at|date:"d.m.Y"}}</h3>
+<div>
+    <h3>Дата публикации: {{publication.publisched_at|date:"d.m.Y"}}</h3> 
+    <h3>Дата создания: {{publication.content_object.created_at|date:"d.m.Y"}}</h3>
+</div>
 
 {% if publication.content_type.model == 'article' %}
 <p>{{ publication.content_object.content }}</p>
