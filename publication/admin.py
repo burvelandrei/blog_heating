@@ -8,6 +8,7 @@ class PublicationAdmin(admin.ModelAdmin):
     list_filter = ("publisched_at",)
     search_fields = ("title",)
     ordering = ("-publisched_at",)
+    readonly_fields = ("publisched_at",)
 
     fieldsets = (
         (None, {"fields": ("title", "content_type", "object_id")}),
@@ -25,7 +26,6 @@ class PublicationAdmin(admin.ModelAdmin):
                 model__in=['article', 'video']
             )
         return super().formfield_for_dbfield(db_field, request, **kwargs)
-    readonly_fields = ("title", "publisched_at")
 
 
 class ArticleAdmin(admin.ModelAdmin):
@@ -34,9 +34,10 @@ class ArticleAdmin(admin.ModelAdmin):
     search_fields = ("title", "author__username")
     filter_horizontal = ("tags",)
     ordering = ("title", "-created_at",)
+    readonly_fields = ("author", "created_at", "updated_at")
 
     fieldsets = (
-        (None, {"fields": ("title", "content", "author", "category", "tags", )}),
+        (None, {"fields": ("title", "content", "category", "tags", "author")}),
         (
             "Расширенные параметры",
             {
@@ -45,7 +46,11 @@ class ArticleAdmin(admin.ModelAdmin):
             },
         ),
     )
-    readonly_fields = ("created_at", "updated_at")
+
+    def save_model(self, request, obj, form, change):
+        if not obj.pk:
+            obj.author = request.user
+        super().save_model(request, obj, form, change)
 
 
 class VideoAdmin(admin.ModelAdmin):
@@ -54,9 +59,10 @@ class VideoAdmin(admin.ModelAdmin):
     search_fields = ("title", "author__username")
     filter_horizontal = ("tags",)
     ordering = ("title", "-created_at",)
+    readonly_fields = ("author", "created_at", "updated_at")
 
     fieldsets = (
-        (None, {"fields": ("title", "youtube_url", "author", "category", "tags", )}),
+        (None, {"fields": ("title", "youtube_url", "category", "tags", "author")}),
         (
             "Расширенные параметры",
             {
@@ -65,7 +71,11 @@ class VideoAdmin(admin.ModelAdmin):
             },
         ),
     )
-    readonly_fields = ("created_at", "updated_at")
+
+    def save_model(self, request, obj, form, change):
+        if not obj.pk:
+            obj.author = request.user
+        super().save_model(request, obj, form, change)
 
 
 admin.site.register(Publication, PublicationAdmin)

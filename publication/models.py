@@ -26,7 +26,6 @@ class Publication(models.Model):
     )
 
     def save(self, *args, **kwargs):
-        # Устанавливаем title на основе связанного объекта
         if self.content_object:
             self.title = self.content_object.title
         super().save(*args, **kwargs)
