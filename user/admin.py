@@ -11,7 +11,7 @@ class UserAdmin(admin.ModelAdmin):
         (None, {
             'fields': ('username', 'first_name', 'last_name', 'email', 'birth_date')
         }),
-        ('Advanced options', {
+        ('Расширенные параметры', {
             'classes': ('collapse',),
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
         }),

@@ -35,8 +35,8 @@ class Publication(models.Model):
         return f"{self.title}"
 
     class Meta:
-        verbose_name = 'Публикация'
-        verbose_name_plural = 'Публикации'
+        verbose_name = "Публикация"
+        verbose_name_plural = "Публикации"
 
 
 class Article(TimeStappedModel):
@@ -50,7 +50,10 @@ class Article(TimeStappedModel):
     )
     publications = GenericRelation(Publication, related_query_name="article")
     author = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, related_name="articles"
+        CustomUser,
+        on_delete=models.CASCADE,
+        related_name="articles",
+        verbose_name="Автор",
     )
     tags = models.ManyToManyField(
         Tag, related_name="articles", blank=True, verbose_name="Теги"
@@ -60,8 +63,8 @@ class Article(TimeStappedModel):
         return f"{self.title}"
 
     class Meta:
-        verbose_name = 'Статья'
-        verbose_name_plural = 'Статьи'
+        verbose_name = "Статья"
+        verbose_name_plural = "Статьи"
 
 
 class Video(TimeStappedModel):
@@ -75,7 +78,10 @@ class Video(TimeStappedModel):
     )
     publications = GenericRelation(Publication, related_query_name="video")
     author = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, related_name="videos"
+        CustomUser,
+        on_delete=models.CASCADE,
+        related_name="videos",
+        verbose_name="Автор",
     )
     tags = models.ManyToManyField(
         Tag, related_name="videos", blank=True, verbose_name="Теги"
@@ -85,5 +91,5 @@ class Video(TimeStappedModel):
         return f"{self.title}"
 
     class Meta:
-        verbose_name = 'Видеоролик'
-        verbose_name_plural = 'Видеоролики'
+        verbose_name = "Видеоролик"
+        verbose_name_plural = "Видеоролики"

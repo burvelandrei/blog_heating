@@ -12,7 +12,7 @@ class PublicationAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {"fields": ("title", "content_type", "object_id")}),
         (
-            "Advanced options",
+            "Расширенные параметры",
             {
                 "classes": ("collapse",),
                 "fields": ("publisched_at",),
@@ -29,13 +29,43 @@ class PublicationAdmin(admin.ModelAdmin):
 
 
 class ArticleAdmin(admin.ModelAdmin):
-    search_fields = ("title",)
+    list_display = ("title", "author__username", "created_at")
+    list_filter = ("title", "created_at",)
+    search_fields = ("title", "author__username")
     filter_horizontal = ("tags",)
+    ordering = ("title", "-created_at",)
+
+    fieldsets = (
+        (None, {"fields": ("title", "content", "author", "category", "tags", )}),
+        (
+            "Расширенные параметры",
+            {
+                "classes": ("collapse",),
+                "fields": ("created_at", "updated_at"),
+            },
+        ),
+    )
+    readonly_fields = ("created_at", "updated_at")
 
 
 class VideoAdmin(admin.ModelAdmin):
-    search_fields = ("title",)
+    list_display = ("title", "author__username", "created_at")
+    list_filter = ("title", "created_at",)
+    search_fields = ("title", "author__username")
     filter_horizontal = ("tags",)
+    ordering = ("title", "-created_at",)
+
+    fieldsets = (
+        (None, {"fields": ("title", "youtube_url", "author", "category", "tags", )}),
+        (
+            "Расширенные параметры",
+            {
+                "classes": ("collapse",),
+                "fields": ("created_at", "updated_at"),
+            },
+        ),
+    )
+    readonly_fields = ("created_at", "updated_at")
 
 
 admin.site.register(Publication, PublicationAdmin)
