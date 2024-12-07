@@ -3,10 +3,10 @@ from .models import Publication, Article, Video
 
 
 class PublicationAdmin(admin.ModelAdmin):
-    list_display = ('title', 'created_at')
-    list_filter = ('created_at',)
+    list_display = ('title', 'publisched_at')
+    list_filter = ('publisched_at',)
     search_fields = ('title',)
-    ordering = ('-created_at',)
+    ordering = ('-publisched_at',)
 
     fieldsets = (
         (None, {
@@ -14,10 +14,10 @@ class PublicationAdmin(admin.ModelAdmin):
         }),
         ('Advanced options', {
             'classes': ('collapse',),
-            'fields': ('created_at', 'updated_at'),
+            'fields': ('publisched_at',),
         }),
     )
-    readonly_fields = ('title', 'created_at', 'updated_at')
+    readonly_fields = ('title', 'publisched_at')
 
 admin.site.register(Publication, PublicationAdmin)
 admin.site.register(Article)

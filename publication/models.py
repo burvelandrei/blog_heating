@@ -50,10 +50,10 @@ class Article(TimeStappedModel):
     )
     publications = GenericRelation(Publication, related_query_name="article")
     author = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, related_name="publications"
+        CustomUser, on_delete=models.CASCADE, related_name="articles"
     )
     tags = models.ManyToManyField(
-        Tag, related_name="articles", null=True, blank=True, verbose_name="Теги"
+        Tag, related_name="articles", blank=True, verbose_name="Теги"
     )
 
     def __str__(self):
@@ -75,10 +75,10 @@ class Video(TimeStappedModel):
     )
     publications = GenericRelation(Publication, related_query_name="video")
     author = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, related_name="publications"
+        CustomUser, on_delete=models.CASCADE, related_name="videos"
     )
     tags = models.ManyToManyField(
-        Tag, related_name="videos", null=True, blank=True, verbose_name="Теги"
+        Tag, related_name="videos", blank=True, verbose_name="Теги"
     )
 
     def __str__(self):
