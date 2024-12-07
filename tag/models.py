@@ -10,4 +10,5 @@ class Tag(models.Model):
         return f"{self.name}"
 
     class Meta:
-        verbose_name = 'Теги'
+        verbose_name = 'Тег'
+        verbose_name_plural = 'Теги'

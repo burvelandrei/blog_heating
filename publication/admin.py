@@ -17,7 +17,7 @@ class PublicationAdmin(admin.ModelAdmin):
             'fields': ('created_at', 'updated_at'),
         }),
     )
-    readonly_fields = ('created_at', 'updated_at')
+    readonly_fields = ('title', 'created_at', 'updated_at')
 
 admin.site.register(Publication, PublicationAdmin)
 admin.site.register(Article)

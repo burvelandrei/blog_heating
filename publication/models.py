@@ -35,7 +35,8 @@ class Publication(models.Model):
         return f"{self.title}"
 
     class Meta:
-        verbose_name = 'Публикации'
+        verbose_name = 'Публикация'
+        verbose_name_plural = 'Публикации'
 
 
 class Article(TimeStappedModel):
@@ -59,7 +60,8 @@ class Article(TimeStappedModel):
         return f"{self.title}"
 
     class Meta:
-        verbose_name = 'Статьи'
+        verbose_name = 'Статья'
+        verbose_name_plural = 'Статьи'
 
 
 class Video(TimeStappedModel):
@@ -83,4 +85,5 @@ class Video(TimeStappedModel):
         return f"{self.title}"
 
     class Meta:
-        verbose_name = 'Видеоролики'
+        verbose_name = 'Видеоролик'
+        verbose_name_plural = 'Видеоролики'
