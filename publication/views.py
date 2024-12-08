@@ -43,22 +43,15 @@ class PublicationDetailView(DetailView):
         context["form"] = CommentForm()
         return context
 
-
-class AddCommentView(FormView):
-    form_class = CommentForm
-
-    def dispatch(self, request, *args, **kwargs):
-        self.publication = get_object_or_404(Publication, id=kwargs["id"])
-        return super().dispatch(request, *args, **kwargs)
-
-    def form_valid(self, form):
-        comment = form.save(commit=False)
-        comment.publication = self.publication
-        comment.author = self.request.user
-        comment.save()
-        return redirect("publication_detail", pk=self.publication.id)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["publication"] = self.publication
-        return context
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.publication = self.object
+            comment.author = request.user
+            comment.save()
+            return redirect('publication_detail', pk=self.object.id)
+        context = self.get_context_data(object=self.object)
+        context["form"] = form
+        return self.render_to_response(context)

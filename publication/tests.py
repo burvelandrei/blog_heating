@@ -95,33 +95,16 @@ class PublicationDetailViewTest(TestCase):
         self.assertIn('form', response.context)
         self.assertIsInstance(response.context['form'], CommentForm)
 
-class AddCommentViewTest(TestCase):
-    def setUp(self):
-        self.client = Client()
-        self.user = CustomUserFactory()
-        self.client.force_login(self.user)
-        self.category = CategoryFactory()
-        self.article = ArticleFactory(category=self.category)
-        self.publication = PublicationFactory(content_object=self.article)
-        self.url = reverse('publication_detail', args=[self.publication.id])
-
-    # def test_add_comment_view_get(self):
-    #     response = self.client.get(self.url)
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertTemplateUsed(response, 'publication_detail.html')
-    #     self.assertIn('form', response.context)
-    #     self.assertIsInstance(response.context['form'], CommentForm)
-    #     self.assertIn('publication', response.context)
-    #     self.assertEqual(response.context['publication'], self.publication)
-
-#     def test_add_comment_view_post(self):
-#         data = {
-#             'content': 'Test comment',
-#         }
-#         response = self.client.post(self.url, data)
-#         self.assertRedirects(response, reverse('publication_detail', args=[self.publication.id]))
-#         self.assertEqual(Comment.objects.count(), 1)
-#         comment = Comment.objects.first()
-#         self.assertEqual(comment.publication, self.publication)
-#         self.assertEqual(comment.author, self.user)
-#         self.assertEqual(comment.content, 'Test comment')
+    def test_add_comment_via_publication_detail_view(self):
+        self.client.force_login(self.user)  # Авторизуем пользователя
+        data = {
+            'content': 'Test comment',
+        }
+        response = self.client.post(self.url, data)
+        self.assertEqual(response.status_code, 302)  # Ожидаем редирект
+        self.assertRedirects(response, self.url)
+        self.assertEqual(Comment.objects.count(), 1)
+        comment = Comment.objects.first()
+        self.assertEqual(comment.publication, self.publication)
+        self.assertEqual(comment.author, self.user)
+        self.assertEqual(comment.content, 'Test comment')

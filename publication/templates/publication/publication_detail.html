@@ -33,7 +33,7 @@
 </ul>
 
 {% if user.is_authenticated%}
-    <form method="post" action="{% url 'add_comment' id=publication.id %}">
+    <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Отправить</button>
