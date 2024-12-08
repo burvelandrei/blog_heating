@@ -8,6 +8,12 @@
 <h3>Дата публикации: {{publication.publisched_at|date:"d.m.Y"}}</h3>
 <h3>Дата создания: {{publication.content_object.created_at|date:"d.m.Y"}}</h3>
 <h3>Автор: {{publication.content_object.author.username}}</h3>
+<p>
+    Теги:
+    {% for tag in tags %}
+        {{ tag.name }}{% if not forloop.last %}| {% endif %}
+    {% endfor %}
+</p>
 
 {% if publication.content_type.model == 'article' %}
 <p>{{ publication.content_object.content }}</p>

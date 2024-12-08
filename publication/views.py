@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, FormView
-from .models import Publication, Article
+from .models import Publication
 from category.models import Category
 from comment.models import Comment
 from comment.forms import CommentForm
+from tag.models import Tag
 
 
 class PublicationListView(ListView):
@@ -40,6 +41,7 @@ class PublicationDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         publication = self.get_object()
         context["comments"] = Comment.objects.filter(publication=publication)
+        context["tags"] = publication.content_object.tags.all()
         context["form"] = CommentForm()
         return context
 
