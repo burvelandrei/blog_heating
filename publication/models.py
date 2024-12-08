@@ -57,6 +57,12 @@ class Article(TimeStappedModel):
     tags = models.ManyToManyField(
         Tag, related_name="articles", blank=True, verbose_name="Теги"
     )
+    image = models.ImageField(
+        upload_to='articles/',
+        null=True,
+        blank=True,
+        verbose_name="Фотография"
+    )
 
     def __str__(self):
         return f"{self.title}"

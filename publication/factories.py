@@ -1,7 +1,12 @@
+import random
 import factory
+import io
+from factory import post_generation
 from factory.django import DjangoModelFactory
 from .models import Article, Video, Publication
 from django.contrib.contenttypes.models import ContentType
+from django.core.files.base import ContentFile
+from PIL import Image
 
 class ArticleFactory(DjangoModelFactory):
     class Meta:
@@ -19,6 +24,20 @@ class ArticleFactory(DjangoModelFactory):
         if extracted:
             for tag in extracted:
                 self.tags.add(tag)
+
+    @post_generation
+    def image(self, create, extracted, **kwargs):
+        if not create:
+            return
+        if extracted:
+            self.image = extracted
+        else:
+            # Создаем случайное изображение
+            image = Image.new('RGB', (100, 100), color=(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)))
+            image_io = io.BytesIO()
+            image.save(image_io, format='JPEG')
+            image_file = ContentFile(image_io.getvalue())
+            self.image.save(f'article_{self.id}.jpg', image_file)
 
 class VideoFactory(DjangoModelFactory):
     class Meta:

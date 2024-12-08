@@ -43,6 +43,10 @@ class PublicationDetailView(DetailView):
         context["comments"] = Comment.objects.filter(publication=publication)
         context["tags"] = publication.content_object.tags.all()
         context["form"] = CommentForm()
+
+        if hasattr(publication.content_object, 'image') and publication.content_object.image:
+            context["image"] = publication.content_object.image
+
         return context
 
     def post(self, request, *args, **kwargs):

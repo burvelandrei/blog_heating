@@ -8,7 +8,7 @@ class PublicationAdmin(admin.ModelAdmin):
     list_filter = ("publisched_at",)
     search_fields = ("title",)
     ordering = ("-publisched_at",)
-    readonly_fields = ("publisched_at",)
+    readonly_fields = ("title", "publisched_at",)
 
     fieldsets = (
         (None, {"fields": ("title", "content_type", "object_id")}),
@@ -37,7 +37,7 @@ class ArticleAdmin(admin.ModelAdmin):
     readonly_fields = ("author", "created_at", "updated_at")
 
     fieldsets = (
-        (None, {"fields": ("title", "content", "category", "tags", "author")}),
+        (None, {"fields": ("title", "content", "category", "tags", "author", "image")}),
         (
             "Расширенные параметры",
             {

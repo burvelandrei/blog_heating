@@ -14,6 +14,10 @@ class ArticleModelTest(TestCase):
         self.assertIsInstance(article, Article)
         self.assertEqual(article.__str__(), article.title)
 
+        # Проверка наличия изображения
+        self.assertTrue(article.image)
+        self.assertTrue(article.image.url)
+
 class VideoModelTest(TestCase):
     def test_video_creation(self):
         video = VideoFactory()
@@ -35,7 +39,6 @@ class PublicationModelTest(TestCase):
         video = VideoFactory()
         publication = PublicationFactory(content_object=video)
         self.assertEqual(publication.title, video.title)
-
 
 class PublicationListViewTest(TestCase):
     def setUp(self):
@@ -96,7 +99,7 @@ class PublicationDetailViewTest(TestCase):
         self.assertIsInstance(response.context['form'], CommentForm)
 
     def test_add_comment_via_publication_detail_view(self):
-        self.client.force_login(self.user)  
+        self.client.force_login(self.user)
         data = {
             'content': 'Test comment',
         }
@@ -108,3 +111,14 @@ class PublicationDetailViewTest(TestCase):
         self.assertEqual(comment.publication, self.publication)
         self.assertEqual(comment.author, self.user)
         self.assertEqual(comment.content, 'Test comment')
+
+    def test_publication_detail_view_image(self):
+        article_with_image = ArticleFactory(category=self.category, image__filename='test_image.jpg')
+        publication_with_image = PublicationFactory(content_object=article_with_image)
+        url_with_image = reverse('publication_detail', args=[publication_with_image.id])
+
+        response = self.client.get(url_with_image)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('image', response.context)
+        self.assertTrue(response.context['image'])
+        self.assertContains(response, article_with_image.image.url)
