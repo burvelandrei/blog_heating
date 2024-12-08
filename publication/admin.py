@@ -29,7 +29,7 @@ class PublicationAdmin(admin.ModelAdmin):
 
 
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ("title", "author__username", "created_at")
+    list_display = ("id", "title", "author__username", "created_at")
     list_filter = ("title", "created_at",)
     search_fields = ("title", "author__username")
     filter_horizontal = ("tags",)
@@ -54,7 +54,7 @@ class ArticleAdmin(admin.ModelAdmin):
 
 
 class VideoAdmin(admin.ModelAdmin):
-    list_display = ("title", "author__username", "created_at")
+    list_display = ("id", "title", "author__username", "created_at")
     list_filter = ("title", "created_at",)
     search_fields = ("title", "author__username")
     filter_horizontal = ("tags",)
