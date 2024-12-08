@@ -96,12 +96,12 @@ class PublicationDetailViewTest(TestCase):
         self.assertIsInstance(response.context['form'], CommentForm)
 
     def test_add_comment_via_publication_detail_view(self):
-        self.client.force_login(self.user)  # Авторизуем пользователя
+        self.client.force_login(self.user)  
         data = {
             'content': 'Test comment',
         }
         response = self.client.post(self.url, data)
-        self.assertEqual(response.status_code, 302)  # Ожидаем редирект
+        self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, self.url)
         self.assertEqual(Comment.objects.count(), 1)
         comment = Comment.objects.first()
