@@ -17,7 +17,7 @@ class ArticleFactory(DjangoModelFactory):
     category = factory.SubFactory('category.factories.CategoryFactory')
     author = factory.SubFactory('user.factories.CustomUserFactory')
 
-    @factory.post_generation
+    @post_generation
     def tags(self, create, extracted, **kwargs):
         if not create:
             return
@@ -48,7 +48,7 @@ class VideoFactory(DjangoModelFactory):
     category = factory.SubFactory('category.factories.CategoryFactory')
     author = factory.SubFactory('user.factories.CustomUserFactory')
 
-    @factory.post_generation
+    @post_generation
     def tags(self, create, extracted, **kwargs):
         if not create:
             return
