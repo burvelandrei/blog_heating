@@ -15,14 +15,13 @@
     {% endfor %}
 </p>
 
-{% if image %}
-    <img src="{{ image.url }}" alt="{{ publication.title }}">
-{% else %}
-    <p>No image available</p>
-{% endif %}
-
 {% if publication.content_type.model == 'article' %}
-<p>{{ publication.content_object.content }}</p>
+    {% if image %}
+        <img src="{{ image.url }}" alt="{{ publication.title }}">
+    {% else %}
+        <p>No image available</p>
+    {% endif %}
+    <p>{{ publication.content_object.content }}</p>
 {% elif publication.content_type.model == 'video' %}
     {% with youtube_url=publication.content_object.youtube_url %}
         {% with video_id=youtube_url|get_youtube_video_id %}
